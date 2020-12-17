@@ -89,3 +89,5 @@ You can choose to send your output for a specific text file or simply copy-paste
 Please visit the the project's [Github](https://github.com/sandobits/api-spec-helper).
 
 ## License
+
+MIT
