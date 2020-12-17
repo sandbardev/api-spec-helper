@@ -1,4 +1,3 @@
-const inquirer = require('inquirer');
 const arg = require('arg');
 const status = require('./http-status-codes.json')
 
@@ -12,23 +11,19 @@ process.on('exit', (code) => {
 
 const args = arg({
   // types
+  '--help': Boolean,
   '--generate-stub': Boolean,
   '--add-path': Boolean,
-  '--help': Boolean,
-  '--responses': String,
-  '--tag': String,
   '--paths': String,
+  '--tag': String,
   '--methods': String,
+  '--responses': String,
   '--file': String,
 
   // aliases
   '-h': '--help',
 })
 
-
-function splitInput(input){
-  return input.split(',')
-}
 
 function checkForFile(){
   if (!args['--file']) {
@@ -56,55 +51,69 @@ function help(){
 
 function generateStub(){
   checkForFile()
-  let fileExt = args['--file'].split('/').pop().split('.')[1]
-
   console.log('generating stub file...')
   process.exit(0)
 }
 
 function createResponseObject(code){
-  return `"${code}": {
-    "description": "${status[code]}"
-  },`
+  return `"${code}": {"description": "${status[code]}"},\n      `
 }
 
-function createMethodObject(method){
-  return `"${method}": {
+function createMethodObject(method, responses){
+  method = method.toLowerCase()
+  let requestBody = ''
 
-  }`
+  function addRequestBody(){
+    return `
+    "requestBody": {
+      "description": "",
+      "content": {
+
+      },
+    }`
+  }
+
+  if (method === 'post' || method === 'put') requestBody = addRequestBody()
+
+  let data =  `  "${method}": {
+    "tags": ["${args['--tag']}"],
+    "summary": "",${requestBody}
+    "responses": {
+      `
+
+  for (let i = 0; i < responses.length; i++) {
+    data = data + createResponseObject(responses[i])
+  }
+
+  return data+'\n'
 }
 
-function addPath(){
+function addPath(path, methods, responses){
   checkForFile()
-  let fileExt = args['--file'].split('/').pop().split('.')[1]
+  console.log('\n', path, methods, responses)
 
-  if (args['--tag']) {
-    let tag = args['--tag']
+  let data = `"/${path}": {
+  `
+  for (let i = 0; i < methods.length; i++) {
+    data = data + createMethodObject(methods[i], responses)
   }
-  
-  if (args['--paths']) {
-    let paths = splitInput(args['--paths'])
-  }
-  
-  if (args['--methods']) {
-    let methods = splitInput(args['--methods'])
-  }
-  
-  if (args['--responses']) {
-    let responses = splitInput(args['--responses'])
-  }
-  
-  if (!args['--file']) {
-    console.log('Error: \'--file\' argument not found.')
-    process.exit(1)
-  }
-  console.log('adding paths...')
-  process.exit(0)
+
+  console.log(data+'}')
 };
-
-
 
 if (args['--help']) help()
 if (args['--generate-stub']) generateStub()
-console.log(createResponseObject(200))
-if (args['--add-path']) addPath()
+
+if (args['--add-path']) {
+  let paths = args['--paths'].split(',')
+
+  let methods = ['GET', 'POST', 'PUT', 'DELETE'] 
+  if (args['--methods']) methods = args['--methods'].split(',')
+
+  let responses = ['200', '204', '404', '400'] 
+  if (args['--responses']) responses = args['--responses'].split(',')
+
+  for (let i = 0; i < paths.length; i++) {
+    addPath(paths[i], methods, responses)
+  }
+}
