@@ -70,7 +70,7 @@ function createMethodObject(method, responses){
 
   function addRequestBody(){
     return `
-    "requestBody": {
+      "requestBody": {
       "description": "",
       "content": {
 
@@ -81,16 +81,16 @@ function createMethodObject(method, responses){
   if (method === 'post' || method === 'put') requestBody = addRequestBody()
 
   let data =  `  "${method}": {
-    "tags": ["${args['--tag']}"],
-    "summary": "",${requestBody}
-    "responses": {
-      `
+      "tags": ["${args['--tag']}"],
+      "summary": "",${requestBody}
+      "responses": {
+        `
 
   for (let i = 0; i < responses.length; i++) {
     data = data + createResponseObject(responses[i])
   }
 
-  return data+'\n'
+  return data+'}\n'
 }
 
 function addPath(path, methods, responses){
