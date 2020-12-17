@@ -1,12 +1,16 @@
 # api-spec-helper
 
+[Github](https://github.com/sandobits/api-spec-helper)
+
 `api-spec-helper` is a CLI tool meant to help you generate API documentation based on the [OAS3](https://swagger.io/resources/open-api/).  
 It generates simple stubs for user-specified paths, allowing you to add methods and responses to your requests automatically. You will still need to customize requestBody properties, request parameters and response schemas.
-It is currently in the early stages of development.
+It is currently in the early stages of development, and only supports the JSON formatting style.
 
 ## Installation
 
-```bash
+Install globally on your computer:
+
+``` bash
   npm install -g api-spec-helper
 ```
 
@@ -86,7 +90,7 @@ You can choose to send your output for a specific text file or simply copy-paste
 
 ## Contributing
 
-Please visit the the project's [Github](https://github.com/sandobits/api-spec-helper).
+Please visit the [Contributing Guide](https://github.com/sandobits/api-spec-helper/Contributing.md).
 
 ## License
 
