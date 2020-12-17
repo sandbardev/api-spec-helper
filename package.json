@@ -1,6 +1,6 @@
 {
   "name": "api-spec-helper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI tool to autogenerate swagger documents",
   "main": "src/api-spec-helper.js",
   "bin": {
@@ -16,7 +16,7 @@
     "documentation"
   ],
   "author": "Sanderson Barbosa <sandbar.dev@gmail.com>",
-  "repository":"github.com/sandobits/api-spec-helper",
+  "repository": "github.com/sandobits/api-spec-helper",
   "license": "MIT",
   "dependencies": {
     "arg": "^5.0.0"
