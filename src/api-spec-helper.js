@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const arg = require('arg');
 const status = require('./http-status-codes.json')
 
@@ -22,6 +24,13 @@ const args = arg({
 
   // aliases
   '-h': '--help',
+  '-a': '--add-path',
+  '-p': '--paths',
+  '-t': '--tag',
+  '-m': '--methods',
+  '-r': '--responses',
+  '-f': '--file',
+  
 })
 
 
@@ -33,24 +42,21 @@ function checkForFile(){
 }
 
 function help(){
-  let message = `OAS Helper command references:
-
-  -h                  --help        Display this help message.
+  let message = `api-spec-helper command references:
+  -h      --help                        Display this help message.
   
-  --generate-stub                   Generates a barebones OAS3 file. 
-  --add-path                        Adds routes to specific paths. Expects arguments:
-    --paths=users,estates           Specify which paths will be documented.
-    --tag='Admin Panel'             Specify a tag to the generated routes.
-    --methods=GET,POST,PUT,DELETE   Specify which methods will be generated. Defaults to all 4.
-    --responses=200,401,403,404     Specify HTTP status codes for responses. Defaults only to 200.
-  
-  --file=swagger.json             Specify output file. Mandatory argument.` 
+  -a      --add-path                    Adds routes to specific paths. Expects arguments:
+  -p        --paths=users,estates         Specify which paths will be documented.
+  -t        --tag='Admin Panel'           Specify a tag to the generated routes.
+  -m        --methods=GET,PUT,DELETE      Specify which methods will be generated. Defaults to all 4.
+  -r        --responses=200,203           Specify HTTP status codes for responses. Defaults to 200, 204, 401 & 404.\n` 
+    
     console.log(message)
     process.exit(0)
 }
 
 function generateStub(){
-  console.log('generating stub file...')
+  console.log('generating stub...')
   process.exit(0)
 }
 
