@@ -49,13 +49,13 @@ function help(){
   
   -a      --add-path                    Adds routes to specific paths. Expects arguments:
   -p        --paths=users,estates         Specify which paths will be documented.
-  -t        --tag='Admin Panel'           Specify a tag to the generated routes.
+  -t        --tag='Admin Panel'           Specify a single tag to the generated paths.
   -m        --methods=GET,PUT,DELETE      Specify which methods will be generated. Defaults to all 4.
   -r        --responses=200,203           Specify HTTP status codes for responses. Defaults to 200, 204, 401 & 404.
   
-  -g       --generate-stub               Generate barebones OAS3 file. Accepts the following arguments:
-  -t         --tag='Admin,Customer'      Specify your project's tags, which will be referenced in your paths. Comma-separated.
-  -n         --name='Application'        Specify your application's title.
+  -g       --generate-stub                           Generate barebones OAS3 file. Accepts the following arguments:
+  -t         --tag='Admin Panel,Customer Panel'      Specify your project's tags, which will be referenced in your paths. Comma-separated.
+  -n         --name='Application'                    Specify your application's title.
   \n` 
     console.log(message)
     process.exit(0)
@@ -89,6 +89,9 @@ function generateStub(title){
   ],
   "tags": [${data}
   ],
+  paths:{
+
+  }
 }`
 
   console.log(stub)
