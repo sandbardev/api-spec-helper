@@ -75,7 +75,7 @@ function createMethodObject(method, responses){
       "content": {
 
       },
-    }`
+    },`
   }
 
   if (method === 'post' || method === 'put') requestBody = addRequestBody()
@@ -90,7 +90,7 @@ function createMethodObject(method, responses){
     data = data + createResponseObject(responses[i])
   }
 
-  return data+'}\n'
+  return data+'},\n'
 }
 
 function addPath(path, methods, responses){
@@ -100,7 +100,7 @@ function addPath(path, methods, responses){
     data = data + createMethodObject(methods[i], responses)
   }
 
-  console.log(data+'}')
+  console.log(data+'},')
 };
 
 if (args['--help']) help()

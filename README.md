@@ -42,44 +42,44 @@ and will generate the following json in stdout:
 ```json
 "/users": {
     "get": {
-    "tags": ["Admin Panel"],
-    "summary": "",
-    "responses": {
-      "200": {"description": "OK"},
-      
+      "tags": ["Admin Panel"],
+      "summary": "",
+      "responses": {
+        "200": {"description": "OK"},
+      },
   "post": {
-    "tags": ["Admin Panel"],
-    "summary": "",
-    "requestBody": {
+      "tags": ["Admin Panel"],
+      "summary": "",
+      "requestBody": {
       "description": "",
       "content": {
 
       },
-    }
-    "responses": {
-      "200": {"description": "OK"},
-      
-}
+    },
+      "responses": {
+        "200": {"description": "OK"},
+      },
+},
 "/estates": {
     "get": {
-    "tags": ["Admin Panel"],
-    "summary": "",
-    "responses": {
-      "200": {"description": "OK"},
-      
+      "tags": ["Admin Panel"],
+      "summary": "",
+      "responses": {
+        "200": {"description": "OK"},
+      },
   "post": {
-    "tags": ["Admin Panel"],
-    "summary": "",
-    "requestBody": {
+      "tags": ["Admin Panel"],
+      "summary": "",
+      "requestBody": {
       "description": "",
       "content": {
 
       },
-    }
-    "responses": {
-      "200": {"description": "OK"},
-      
-}
+    },
+      "responses": {
+        "200": {"description": "OK"},
+      },
+},
 ```
 
 You can choose to send your output for a specific text file or simply copy-paste the stubs on your swagger.json file. Then, adapt and add content as necessary.
