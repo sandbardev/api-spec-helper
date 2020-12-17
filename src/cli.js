@@ -50,7 +50,6 @@ function help(){
 }
 
 function generateStub(){
-  checkForFile()
   console.log('generating stub file...')
   process.exit(0)
 }
@@ -89,9 +88,6 @@ function createMethodObject(method, responses){
 }
 
 function addPath(path, methods, responses){
-  checkForFile()
-  console.log('\n', path, methods, responses)
-
   let data = `"/${path}": {
   `
   for (let i = 0; i < methods.length; i++) {
