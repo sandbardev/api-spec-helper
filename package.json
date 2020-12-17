@@ -1,10 +1,10 @@
 {
   "name": "api-spec-helper",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "src/api-spec-helper.js",
   "bin": {
-    "api-spec-helper":"src/api-spec-helper.js"
+    "api-spec-helper": "src/api-spec-helper.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
