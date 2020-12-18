@@ -3,9 +3,10 @@
 Just open a pull request on a feature branch with your code.  
 There is obviously a lot that needs to be done, with a few examples being:
 
-- Improving overall code readability;
+- Improve overall code readability;
+- Improve error handling
 - Add support to .yml format;
-- Allow further output customization;
+- Add support to further output customization;
 - Add support to direct manipulation of existing Swagger files to facilitate content insertion;
-- Add error handling
-- Add tests
+- Add testing suite;
+- Fix trailing commas and indentation issues on json output;

@@ -16,7 +16,7 @@
     "documentation"
   ],
   "author": "Sanderson Barbosa <sandbar.dev@gmail.com>",
-  "repository": "github.com/sandobits/api-spec-helper",
+  "repository": "sandobits/api-spec-helper",
   "license": "MIT",
   "dependencies": {
     "arg": "^5.0.0"

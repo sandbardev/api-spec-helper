@@ -66,7 +66,7 @@ function generateStub(title){
     let tags = args['--tag'].split(',')
 
   function createTagObject(name){
-    return `\n    {"name":${name},  "description": "Tag description"},`
+    return `\n    {"name": "${name}",  "description": "Tag description"},`
   }
 
   let data = ''
@@ -89,10 +89,8 @@ function generateStub(title){
   ],
   "tags": [${data}
   ],
-  paths:{
-
-  }
-}`
+  "paths": {
+`
 
   console.log(stub)
   process.exit(0)
@@ -133,7 +131,7 @@ function createMethodObject(method, responses, tags){
     data = data + createResponseObject(responses[i])
   }
 
-  return data+'},\n'
+  return data+'},\n   },\n'
 }
 
 function addPath(path, methods, responses, tags){
@@ -150,19 +148,25 @@ if (args['--help']) help()
 
 if (args['--generate-stub']) generateStub(args['--name'])
 
-if (args['--add-path']) {
-  let paths = args['--paths'].split(',')
+try {
+  if (args['--add-path']) {
+    
+    if (!args['--paths']) throw `Missing parameter: --paths. Please specify a path with '-p paths' or '--paths=paths'.`
+    let paths = args['--paths'].split(',')
 
-  let tags = ''
-  if (args['--tag']) tags = args['--tag']
+    let tags = ''
+    if (args['--tag']) tags = args['--tag']
 
-  let methods = ['GET', 'POST', 'PUT', 'DELETE'] 
-  if (args['--methods']) methods = args['--methods'].split(',')
+    let methods = ['GET', 'POST', 'PUT', 'DELETE'] 
+    if (args['--methods']) methods = args['--methods'].split(',')
 
-  let responses = ['200', '204', '404', '400'] 
-  if (args['--responses']) responses = args['--responses'].split(',')
+    let responses = ['200', '204', '404', '400'] 
+    if (args['--responses']) responses = args['--responses'].split(',')
 
-  for (let i = 0; i < paths.length; i++) {
-    addPath(paths[i], methods, responses, tags)
+    for (let i = 0; i < paths.length; i++) addPath(paths[i], methods, responses, tags)
   }
+} 
+catch(err) {
+  console.log(err)
+  process.exit(1)
 }

@@ -94,7 +94,7 @@ You can choose to send your output for a specific text file or simply copy-paste
 
 ## Contributing
 
-Please visit the [Contributing Guide](https://github.com/sandobits/api-spec-helper/Contributing.md).
+Please visit the [Contributing Guide](https://github.com/sandobits/api-spec-helper/blob/master/Contributing.md).
 
 ## License
 
