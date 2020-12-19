@@ -65,35 +65,36 @@ function generateStub(title){
   try {
     let tags = args['--tag'].split(',')
 
-  function createTagObject(name){
-    return `\n    {"name": "${name}",  "description": "Tag description"},`
-  }
-
-  let data = ''
-  for (let i = 0; i < tags.length; i++) {
-    data = data + createTagObject(tags[i])
-  }
-
-  let stub = `{
-  "openapi": "3.0.0",
-  "info": {
-    "version": "0.1.0",
-    "title": "${title || 'Application Title'}",
-    "description": "Application Description"
-  },
-  "servers": [
-    {
-      "url": "http://localhost",
-      "description": "Your local application server"
+    function createTagObject(name){
+      return `{"name": "${name}", "description": "Tag description"}`
     }
-  ],
-  "tags": [${data}
-  ],
-  "paths": {
-`
 
-  console.log(stub)
-  process.exit(0)
+    let data = ''
+    for (let i = 0; i < tags.length; i++) {
+      data = data + createTagObject(tags[i])
+      if (i !== tags.length-1) data = data+',\n       '
+    }
+
+    let stub = `{
+    "openapi": "3.0.0",
+    "info": {
+      "version": "0.1.0",
+      "title": "${title || 'Application Title'}",
+      "description": "Application Description"
+    },
+    "servers": [
+      {
+        "url": "http://localhost",
+        "description": "Your local application server"
+      }
+    ],
+    "tags": [\n       ${data}
+    ],
+    "paths": {
+  `
+
+    console.log(stub)
+    process.exit(0)
 
   } catch(err) {
     console.log('Error: please specify at least one tag for your application, with -t or --tag')
@@ -102,46 +103,53 @@ function generateStub(title){
 }
 
 function createResponseObject(code){
-  return `  "${code}": {"description": "${status[code]}"},\n      `
+  return `"${code}": {"description": "${status[code]}"}`
 }
 
 function createMethodObject(method, responses, tags){
   method = method.toLowerCase()
   let requestBody = ''
+  let responseObjects = ''
 
   function addRequestBody(){
     return `
       "requestBody": {
-      "description": "",
-      "content": {
+        "description": "",
+        "content": {
 
-      },
-    },`
+        },
+      },`
   }
 
   if (method === 'post' || method === 'put') requestBody = addRequestBody()
 
-  let data =  `  "${method}": {
+
+  for (let i = 0; i < responses.length; i++) {
+    responseObjects = responseObjects + createResponseObject(responses[i])
+    if (i !== responses.length-1) responseObjects = responseObjects+',\n        '
+  }
+
+  let data =  `"${method}": {
       "tags": ["${tags}"],
       "summary": "",${requestBody}
       "responses": {
-      `
-
-  for (let i = 0; i < responses.length; i++) {
-    data = data + createResponseObject(responses[i])
-  }
-
-  return data+'},\n   },\n'
+        ${responseObjects}
+      }
+    }`
+  return data
 }
 
 function addPath(path, methods, responses, tags){
-  let data = `"/${path}": {
-  `
-  for (let i = 0; i < methods.length; i++) {
-    data = data + createMethodObject(methods[i], responses, tags)
-  }
+  let methodObjects = ''
 
-  console.log(data+'},')
+  for (let i = 0; i < methods.length; i++) {
+    methodObjects = methodObjects + createMethodObject(methods[i], responses, tags)
+    if (i !== methods.length-1) methodObjects = methodObjects+',\n  '
+  }
+  
+  let data = `"/${path}": {\n ${methodObjects}\n  }`
+
+  console.log(data)
 };
 
 if (args['--help']) help()
