@@ -1,10 +1,8 @@
 # api-spec-helper
 
-[Github](https://github.com/sandobits/api-spec-helper)
-
 `api-spec-helper` is a CLI tool meant to help you generate API documentation based on the [OAS3](https://swagger.io/resources/open-api/).  
-It generates simple stubs for user-specified paths, allowing you to add methods and responses to your requests automatically. You will still need to customize requestBody properties, request parameters and response schemas.
-It is currently in the early stages of development, and only supports the JSON formatting style.
+It generates simple stubs for user-specified paths, allowing you to add methods and responses to your requests automatically. You will still need to customize requestBody properties, request parameters and response schemas.  You will also need to fix the indentation in some parts, unfortunately.
+It is currently in the early stages of development, and only supports JSON formatting.
 
 ## Installation
 
@@ -33,7 +31,44 @@ api-spec-helper command references:
   -n         --name='Application'        Specify your application's title.
 ```
 
-### Example
+## Examples
+
+### generate-stub
+
+``` bash
+  api-spec-helper -g -t 'Admin Panel'
+```
+
+will be equivalent to
+
+``` bash
+  api-spec-helper --generate-stub --tag 'Admin Panel'
+```
+
+and will generate the following json in stdout:
+
+```json
+{
+    "openapi": "3.0.0",
+    "info": {
+      "version": "0.1.0",
+      "title": "Application Title",
+      "description": "Application Description"
+    },
+    "servers": [
+      {
+        "url": "http://localhost",
+        "description": "Your local application server"
+      }
+    ],
+    "tags": [
+       {"name": "Admin Panel", "description": "Tag description"}
+    ],
+    "paths": {
+  
+```
+
+### add-path
 
 ``` bash
   api-spec-helper -a -p users,estates -t 'Admin Panel' -m GET,POST -r 200
@@ -49,44 +84,48 @@ and will generate the following json in stdout:
 
 ```json
 "/users": {
-    "get": {
+ "get": {
       "tags": ["Admin Panel"],
       "summary": "",
       "responses": {
-        "200": {"description": "OK"},
-      },
+        "200": {"description": "OK"}
+      }
+    },
   "post": {
       "tags": ["Admin Panel"],
       "summary": "",
       "requestBody": {
-      "description": "",
-      "content": {
+        "description": "",
+        "content": {
 
+        }
       },
-    },
       "responses": {
-        "200": {"description": "OK"},
-      },
+        "200": {"description": "OK"}
+      }
+    }
 },
 "/estates": {
-    "get": {
+ "get": {
       "tags": ["Admin Panel"],
       "summary": "",
       "responses": {
-        "200": {"description": "OK"},
-      },
+        "200": {"description": "OK"}
+      }
+    },
   "post": {
       "tags": ["Admin Panel"],
       "summary": "",
       "requestBody": {
-      "description": "",
-      "content": {
+        "description": "",
+        "content": {
 
+        }
       },
-    },
       "responses": {
-        "200": {"description": "OK"},
-      },
+        "200": {"description": "OK"}
+      }
+    }
 },
 ```
 

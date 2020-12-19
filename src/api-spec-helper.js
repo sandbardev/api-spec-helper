@@ -117,7 +117,7 @@ function createMethodObject(method, responses, tags){
         "description": "",
         "content": {
 
-        },
+        }
       },`
   }
 
@@ -147,7 +147,7 @@ function addPath(path, methods, responses, tags){
     if (i !== methods.length-1) methodObjects = methodObjects+',\n  '
   }
   
-  let data = `"/${path}": {\n ${methodObjects}\n  }`
+  let data = `"/${path}": {\n ${methodObjects}\n},`
 
   console.log(data)
 };
