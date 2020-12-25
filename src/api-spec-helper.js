@@ -36,13 +36,6 @@ const args = arg({
 })
 
 
-function checkForFile(){
-  if (!args['--file']) {
-    console.log('Error: \'--file\' argument not found.')
-    process.exit(1)
-  }
-}
-
 function help(){
   let message = `api-spec-helper command references:
   -h      --help                        Display this help message.
@@ -61,55 +54,14 @@ function help(){
     process.exit(0)
 }
 
-function generateStub(title){
-  try {
-    let tags = args['--tag'].split(',')
-
-    function createTagObject(name){
-      return `{"name": "${name}", "description": "Tag description"}`
-    }
-
-    let data = ''
-    for (let i = 0; i < tags.length; i++) {
-      data = data + createTagObject(tags[i])
-      if (i !== tags.length-1) data = data+',\n       '
-    }
-
-    let stub = `{
-    "openapi": "3.0.0",
-    "info": {
-      "version": "0.1.0",
-      "title": "${title || 'Application Title'}",
-      "description": "Application Description"
-    },
-    "servers": [
-      {
-        "url": "http://localhost",
-        "description": "Your local application server"
-      }
-    ],
-    "tags": [\n       ${data}
-    ],
-    "paths": {
-  `
-
-    console.log(stub)
-    process.exit(0)
-
-  } catch(err) {
-    console.log('Error: please specify at least one tag for your application, with -t or --tag')
-    process.exit(1)
-  }
-}
-
-function createResponseObject(code){
-  return `"${code}": {"description": "${status[code]}"}`
-}
-
 function createMethodObject(method, responses, tags){
   method = method.toLowerCase()
   let requestBody = ''
   let responseObjects = ''
+
+  function createResponseObject(code){
+    return `"${code}": {"description": "${status[code]}"}`
+  }
 
   function addRequestBody(){
     return `
@@ -150,20 +102,65 @@ function addPath(path, methods, responses, tags){
   let data = `"/${path}": {\n ${methodObjects}\n},`
 
   console.log(data)
-};
+}
 
-if (args['--help']) help()
+function generateStub(title, tags){
+  try {
+    function createTagObject(name){
+      return `{"name": "${name}", "description": "Tag description"}`
+    }
+    
+    if (typeof(tags) === 'undefined') tags = []
+    let data = ''
+    
+    for (let i = 0; i < tags.length; i++) {
+      data = data + createTagObject(tags[i])
+      if (i !== tags.length-1) data = data+',\n       '
+    }
 
-if (args['--generate-stub']) generateStub(args['--name'])
+    let stub = `{
+    "openapi": "3.0.0",
+    "info": {
+      "version": "0.1.0",
+      "title": "${title || 'Application Title'}",
+      "description": "Application Description"
+    },
+    "servers": [
+      {
+        "url": "http://localhost",
+        "description": "Your local application server"
+      }
+    ],
+    "tags": [\n       ${data}
+    ],
+    "paths": {
+    
+    }
+  `
 
+    console.log(stub)
+    process.exit(0)
+  } catch(err) {
+    console.log(err)
+    process.exit(1)
+  }
+}
+
+// main
 try {
+  if (args['--help']) help()
+
+  let tags = ''
+  if (args['--tag']) tags = args['--tag'] 
+
+  if (args['--generate-stub']) {
+    generateStub(args['--name'], args['--tag'])
+  }
+
   if (args['--add-path']) {
     
     if (!args['--paths']) throw `Missing parameter: --paths. Please specify a path with '-p paths' or '--paths=paths'.`
     let paths = args['--paths'].split(',')
-
-    let tags = ''
-    if (args['--tag']) tags = args['--tag']
 
     let methods = ['GET', 'POST', 'PUT', 'DELETE'] 
     if (args['--methods']) methods = args['--methods'].split(',')
